@@ -3,9 +3,13 @@ package com.codahale.jerkson.ser
 import org.codehaus.jackson.`type`.JavaType
 import com.codahale.jerkson.AST.JValue
 import org.codehaus.jackson.map._
+import org.codehaus.jackson.map.`type`._
 
-class ScalaSerializers extends Serializers {
-  def findSerializer(config: SerializationConfig, javaType: JavaType, beanDesc: BeanDescription, beanProp: BeanProperty) = {
+class ScalaSerializers extends Serializers.None {
+  override def findSerializer(config: SerializationConfig,
+                              javaType: JavaType,
+                              beanDesc: BeanDescription,
+                              beanProp: BeanProperty) = {
     val ser: Object = if (classOf[Option[_]].isAssignableFrom(beanDesc.getBeanClass)) {
         new OptionSerializer
     } else if (classOf[StringBuilder].isAssignableFrom(beanDesc.getBeanClass)) {
@@ -28,5 +32,52 @@ class ScalaSerializers extends Serializers {
       null
     }
     ser.asInstanceOf[JsonSerializer[Object]]
+  }
+
+  override def findArraySerializer(config: SerializationConfig,
+                                   arrayType: ArrayType,
+                                   beanDesc: BeanDescription,
+                                   property: BeanProperty,
+                                   elementTypeSerializer: TypeSerializer,
+                                   elementValueSerializer: JsonSerializer[AnyRef]): JsonSerializer[_] = {
+    null
+  }
+
+  override def findCollectionSerializer(config: SerializationConfig,
+                                        collectionType: CollectionType,
+                                        beanDesc: BeanDescription,
+                                        property: BeanProperty,
+                                        elementTypeSerializer: TypeSerializer,
+                                        elementValueSerializer: JsonSerializer[AnyRef]): JsonSerializer[_] = {
+    null
+  }
+
+  override def findCollectionLikeSerializer(config: SerializationConfig,
+                                            collectionLikeType: CollectionLikeType,
+                                            beanDesc: BeanDescription,
+                                            property: BeanProperty,
+                                            elementTypeSerializer: TypeSerializer,
+                                            elementValueSerializer: JsonSerializer[AnyRef]): JsonSerializer[_] = {
+    null
+  }
+
+  override def findMapSerializer(config: SerializationConfig,
+                                 mapType: MapType,
+                                 beanDesc: BeanDescription,
+                                 property: BeanProperty,
+                                 keySerializer: JsonSerializer[AnyRef],
+                                 elementTypeSerializer: TypeSerializer,
+                                 elementValueSerializer: JsonSerializer[AnyRef]): JsonSerializer[_] = {
+    null
+  }
+
+  override def findMapLikeSerializer(config: SerializationConfig,
+                                     mapLikeType: MapLikeType,
+                                     beanDesc: BeanDescription,
+                                     property: BeanProperty,
+                                     keySerializer: JsonSerializer[AnyRef],
+                                     elementTypeSerializer: TypeSerializer,
+                                     elementValueSerializer: JsonSerializer[AnyRef]): JsonSerializer[_] = {
+    null
   }
 }
